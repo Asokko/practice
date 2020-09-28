@@ -22,7 +22,7 @@ const jsLoader=()=>{
           }
     ]
     if(isDev){
-        loader.push('eslint-loader')
+        Loader.push('eslint-loader')
     }
 }
 
