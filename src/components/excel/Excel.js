@@ -25,7 +25,7 @@ export class Excel {
 
     render() {  
         this.$el.append(this.getRoot())
-        //включаем слушателей
+        //включаю слушателей
         this.components.forEach(component=>component.init())
     }
 }
