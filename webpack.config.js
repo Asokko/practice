@@ -12,20 +12,22 @@ const filename=ext=>isDev?`bundle.${ext}`:`bundle.[hash].${ext}`
 console.log('is prod', isProd)
 console.log('is dev', isDev)
 
-const jsLoader=()=>{
+/*const jsLoader=()=>{
     const Loader=[
         {
             loader: 'babel-loader',
             options: {
-              presets: ['@babel/preset-env']
+              presets: ['@babel/preset-env'],
+              plugins: ['@babel/plugin-proposal-class-properties']
             }
+            
           }
     ]
     if(isDev){
         Loader.push('eslint-loader')
     }
 }
-
+*/
 module.exports={
     context: path.resolve(__dirname, 'src'),
     mode: 'development',
@@ -37,8 +39,8 @@ module.exports={
     resolve:{
         extensions:['.js'],
         alias:{
-            '@': path.resolve(__dirname, 'src'),
-            '@core': path.resolve(__dirname, 'src/core')
+            path: path.resolve(__dirname, 'src/'),
+            pathCore: path.resolve(__dirname, 'src/core/')
         }
     },
     devtool:isDev?'source-map': false,
@@ -81,7 +83,15 @@ module.exports={
             },
             {
                 test: /\.m?js$/,
-                use: jsLoader()
+                use:[
+                    {
+                    loader: 'babel-loader',
+                    options: {
+                      presets: ['@babel/preset-env'],
+                      plugins: ['@babel/plugin-proposal-class-properties']
+                    }
+                }
+                ]
             }
           ],
     }
