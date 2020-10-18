@@ -1,21 +1,23 @@
 import {$} from 'pathCore/dom'
+import {Observer} from 'pathCore/Observer'
+
 export class Excel {
     constructor(selector, options){
-       // this.$el=document.querySelector(selector) //<div ip="app"></div>
        this.$el=$(selector)
        this.components=options.components || []
+       this.observer=new Observer()
     }
 
     getRoot(){
-        /*const $root=document.createElement('div')
-        $root.classList.add('excel')*/
         const $root=$.create('div','excel')
+
+        const componentOptions={
+            observer:this.observer
+        }
+
         this.components=this.components.map(Component => {
             const $el=$.create('div',Component.className)
-            /*const $el=document.createElement('div')
-            $el.classList.add(Component.className)*/
-            const component=new Component($el)
-            //$el.innerHTML=component.toHTML()
+            const component=new Component($el,componentOptions)
             $el.html(component.toHTML())
             $root.append($el)
             return component
@@ -25,7 +27,11 @@ export class Excel {
 
     render() {  
         this.$el.append(this.getRoot())
-        //включаю слушателей
+    
         this.components.forEach(component=>component.init())
+    }
+
+    destroy(){
+        this.components.forEach(component=>component.destroy())
     }
 }
