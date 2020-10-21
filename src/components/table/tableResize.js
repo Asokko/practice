@@ -1,9 +1,8 @@
 import {$} from 'pathCore/dom'
 
 export function resizeHeadler($root, event){
-    const $target=$(event.target)
-    //const $parent=$target.$el.parentNode
-    //const $parent=$target.$el.closest('.column')
+    return new Promise(resolve =>{
+        const $target=$(event.target)
     const $parent=$target.closest('[data-type="resizable"]')
     const coords = $parent.getCoords()
     const type=$target.data.resize
@@ -37,11 +36,20 @@ export function resizeHeadler($root, event){
         }else{
             $parent.css({height: value +'px'})
         }
+
+        resolve({
+            value,
+            type,
+            id: $parent.data[type]
+        })
+
         $target.css({
             opacity:0,
             bottom:0,
             right:0
         })
     }
+    })
+    
 
 } 

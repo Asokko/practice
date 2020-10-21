@@ -3,7 +3,7 @@ export class Observer{
         this.listeners={}
     }
     //Уведомляю слушателей если они есть
-    dispatch(event, ...args){
+    emit(event, ...args){
         if(!Array.isArray(this.listeners[event])){
             return false
         }else{
