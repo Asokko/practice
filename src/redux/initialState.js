@@ -1,4 +1,4 @@
-import {storage} from 'pathCore/utils'
+import {clone} from 'pathCore/utils'
 import {defaultStyles, defaultTitle} from 'path/constants'
 
 const defaultState={
@@ -8,7 +8,8 @@ const defaultState={
     dataState:{},
     stylesState:{},
     currentText:'',
-    currentStyles: defaultStyles
+    currentStyles: defaultStyles,
+    openedData: new Date().toJSON()
 }
 
 const normalize=state=>({
@@ -16,4 +17,8 @@ const normalize=state=>({
     currentStyles:defaultStyles,
     currentText:''
 })
-export const initialState=storage('excel-state')?normalize(storage('excel-state')):defaultState
+
+
+export function normalizeInitialState(state){
+    return state? normalize(state): clone(defaultState)
+}
