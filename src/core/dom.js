@@ -13,9 +13,9 @@ class Dom{
        return this.$el.outerHTML.trim()
    }
    clear() {
-       this.html('')
-       return this
-   }
+    this.html('')
+    return this
+  }
    
    attr(name, value){
     
@@ -103,7 +103,7 @@ class Dom{
    }
 
    off(evenType, callback){
-    his.$el.removeEventListener(evenType, callback)
+    this.$el.removeEventListener(evenType, callback)
    }
    append(node){
        if(node instanceof Dom){

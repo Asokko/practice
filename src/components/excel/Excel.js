@@ -1,10 +1,12 @@
 import {$} from 'pathCore/dom'
 import {Observer} from 'pathCore/Observer'
 import {StoreSubscriber} from 'pathCore/storeSubscriber'
+import {updateDate} from 'path/redux/actions'
+import {preventDefault} from 'pathCore/utils'
 
 export class Excel {
-    constructor(selector, options){
-       this.$el=$(selector)
+    constructor(options){
+      
        this.components=options.components || []
        this.store=options.store
        this.observer=new Observer()
@@ -29,8 +31,11 @@ export class Excel {
         return $root
     }
 
-    render() {  
-        this.$el.append(this.getRoot())
+    init() {  
+        if(process.env.NODE_ENV==='production'){
+            document.addEventListener('contextmenu', preventDefault)
+        }
+        this.store.dispatch(updateDate())
         this.subscriber.subscribeComponents(this.components)
         this.components.forEach(component=>component.init())
     }
@@ -38,5 +43,6 @@ export class Excel {
     destroy(){
         this.subscriber.unsubscribeFromStore(this.components)
         this.components.forEach(component=>component.destroy())
+        document.removeEventListener('contextmenu', preventDefault)
     }
 }
